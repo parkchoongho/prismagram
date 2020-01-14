@@ -7,15 +7,16 @@ type User {
   bio: String
   following: [User!]! @relation(name: "FollowRelation")
   followers: [User!]! @relation(name: "FollowRelation")
-  posts: [Post!]!
-  likes: [Like!]!
-  comments: [Comment!]!
-  rooms: [Room!]!
+  posts: [Post!]! @relation(name: "PostAuthor", onDelete: CASCADE) 
+  likes: [Like] 
+  comments: [Comment] 
+  rooms: [Room] 
+  loginSecret: String
 }
 
 type Post {
   id: ID! @id
-  user: User!
+  user: User! @relation(name: "PostAuthor", onDelete: SET_NULL)
   files: [File!]!
   location: String
   caption: String!
@@ -45,7 +46,7 @@ type File {
 type Room {
   id: ID! @id
   participants: [User!]!
-  messages: [Message!]!
+  messages: [Message] 
 }
 
 type Message {
